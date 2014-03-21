@@ -1049,7 +1049,7 @@ public class VideoCastManager extends BaseCastManager
      */
     public void loadMedia(MediaInfo media, boolean autoPlay, int position, JSONObject customData)
             throws TransientNetworkDisconnectionException, NoConnectionException {
-        LOGD(TAG, "loadMedia: " + media);
+//        LOGD(TAG, "loadMedia: " + media);
         checkConnectivity();
         if (media == null) {
             return;
@@ -1937,7 +1937,13 @@ public class VideoCastManager extends BaseCastManager
 
     @Override
     public void onDisconnected() {
-        super.onDisconnected();
+    	try {
+			sendDataMessage("EXPLICIT_DISCONNECT");
+			super.onDisconnected();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         updateMiniControllersVisibility(false);
         stopNotificationService();
         removeRemoteControlClient();
